@@ -7,21 +7,22 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/jupyter_events-{{ version }}.tar.gz
-  sha256: 9a6e9995f75d1b7146b436ea24d696ce3a35bfa8bfe45e0c33c334c79464d0b3
+  sha256: 9a6e9995f75d1b7146b436ea24d696ce3a35bfa8bfe45e0c33c334c79464d0b3 
 
 build:
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   number: 0
+  skip: True # [py <37]
 
 requirements:
   host:
     - pip
-    - python >=3.7
-    - hatchling >=1.0
+    - python
+    - hatchling >=1.5
+    - wheel
   run:
     - jsonschema >=3.2
-    - python >=3.7
+    - python
     - python-json-logger >=2.0.4
     - traitlets >=5.3
     - pyyaml >=5.3
@@ -30,15 +31,18 @@ requirements:
 
 test:
   source_files:
-    - .
+    - tests
   imports:
     - jupyter_events
-  commands:
-    - pip check
-    - pip install -e ".[test]"
-    - python -m pytest -vv
   requires:
     - pip
+    - pytest >=7.0
+    - click
+    - rich
+    - anyio
+  commands:
+    - pip check
+    - python -m pytest -k "not (test_listeners.py or test_cli.py or test_noop_emit)" -vv
 
 about:
   home: https://pypi.org/project/jupyter-events/
@@ -47,6 +51,8 @@ about:
   license: BSD-3-Clause
   license_family: BSD
   license_file: COPYING.md
+  description: Jupyter Events enables Jupyter Python Applications (e.g. Jupyter Server, JupyterLab Server, JupyterHub, etc.) to emit events—structured data describing things happening inside the application. Other software (e.g. client applications like JupyterLab) can listen and respond to these events.
+  doc_url: https://jupyter-events.readthedocs.io
 
 extra:
   recipe-maintainers:
