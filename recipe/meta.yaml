@@ -1,5 +1,5 @@
 {% set name = "jupyter_events" %}
-{% set version = "0.6.3" %}
+{% set version = "0.8.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,27 +7,29 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/jupyter_events-{{ version }}.tar.gz
-  sha256: 9a6e9995f75d1b7146b436ea24d696ce3a35bfa8bfe45e0c33c334c79464d0b3 
+  sha256: fda08f0defce5e16930542ce60634ba48e010830d50073c3dfd235759cee77bf
 
 build:
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   number: 0
-  skip: True # [py <37]
+  skip: True # [py <38]
+  entry_points:
+    - jupyter-events = jupyter_events.cli:main
 
 requirements:
   host:
     - pip
     - python
     - hatchling >=1.5
-    - wheel
   run:
-    - jsonschema >=3.2
+    - jsonschema >=4.18.0
     - python
     - python-json-logger >=2.0.4
     - traitlets >=5.3
     - pyyaml >=5.3
     - rfc3339-validator
     - rfc3986-validator >=0.1.1
+    - referencing
 
 test:
   source_files:
@@ -42,7 +44,7 @@ test:
     - anyio
   commands:
     - pip check
-    - python -m pytest -k "not (test_listeners.py or test_cli.py or test_noop_emit)" -vv
+    - python -m pytest -k "not (test_cli.py)" -vv
 
 about:
   home: https://pypi.org/project/jupyter-events/
@@ -50,7 +52,7 @@ about:
   summary: Jupyter Event System library
   license: BSD-3-Clause
   license_family: BSD
-  license_file: COPYING.md
+  license_file: LICENSE
   description: Jupyter Events enables Jupyter Python Applications (e.g. Jupyter Server, JupyterLab Server, JupyterHub, etc.) to emit events—structured data describing things happening inside the application. Other software (e.g. client applications like JupyterLab) can listen and respond to these events.
   doc_url: https://jupyter-events.readthedocs.io
 
