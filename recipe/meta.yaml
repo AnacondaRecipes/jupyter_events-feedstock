@@ -1,5 +1,5 @@
 {% set name = "jupyter_events" %}
-{% set version = "0.8.0" %}
+{% set version = "0.10.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/jupyter_events-{{ version }}.tar.gz
-  sha256: fda08f0defce5e16930542ce60634ba48e010830d50073c3dfd235759cee77bf
+  sha256: 670b8229d3cc882ec782144ed22e0d29e1c2d639263f92ca8383e66682845e22
 
 build:
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
