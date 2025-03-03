@@ -1,5 +1,5 @@
 {% set name = "jupyter_events" %}
-{% set version = "0.10.0" %}
+{% set version = "0.12.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,12 +7,12 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/jupyter_events-{{ version }}.tar.gz
-  sha256: 670b8229d3cc882ec782144ed22e0d29e1c2d639263f92ca8383e66682845e22
+  sha256: fc3fce98865f6784c9cd0a56a20644fc6098f21c8c33834a8d9fe383c17e554b
 
 build:
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   number: 0
-  skip: True # [py <38]
+  skip: True # [py<39]
   entry_points:
     - jupyter-events = jupyter_events.cli:main
 
@@ -24,12 +24,13 @@ requirements:
   run:
     - jsonschema >=4.18.0
     - python
-    - python-json-logger >=2.0.4
     - traitlets >=5.3
     - pyyaml >=5.3
     - rfc3339-validator
     - rfc3986-validator >=0.1.1
     - referencing
+    - python-json-logger >=2.0.4
+    - packaging
 
 test:
   source_files:
@@ -39,12 +40,11 @@ test:
   requires:
     - pip
     - pytest >=7.0
-    - click
-    - rich
-    - anyio
+    - pytest-asyncio >=0.19.0
+    - pytest-console-scripts
   commands:
     - pip check
-    - python -m pytest -k "not (test_cli.py)" -vv
+    - python -m pytest --ignore=tests/test_cli.py -vv
 
 about:
   home: https://pypi.org/project/jupyter-events/
