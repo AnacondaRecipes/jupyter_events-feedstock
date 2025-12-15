@@ -11,7 +11,7 @@ source:
 
 build:
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-  number: 0
+  number: 1
   skip: True # [py<39]
   entry_points:
     - jupyter-events = jupyter_events.cli:main
@@ -41,6 +41,7 @@ test:
     - pip
     - pytest >=7.0
     - pytest-asyncio >=0.19.0
+    - pytest-tornasync
     - pytest-console-scripts
   commands:
     - pip check
