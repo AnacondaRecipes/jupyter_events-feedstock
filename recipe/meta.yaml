@@ -1,18 +1,18 @@
 {% set name = "jupyter_events" %}
-{% set version = "0.12.0" %}
+{% set version = "0.12.1" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/jupyter_events-{{ version }}.tar.gz
-  sha256: fc3fce98865f6784c9cd0a56a20644fc6098f21c8c33834a8d9fe383c17e554b
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/jupyter_events-{{ version }}.tar.gz
+  sha256: faff25f77218335752f35f23c5fe6e4a392a7bd99a5939ccb9b8fbf594636cf3
 
 build:
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-  number: 1
-  skip: True # [py<39]
+  number: 0
+  skip: true  # [py<39]
   entry_points:
     - jupyter-events = jupyter_events.cli:main
 
