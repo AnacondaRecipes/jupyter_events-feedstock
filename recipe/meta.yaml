@@ -43,6 +43,8 @@ test:
     - pytest-asyncio >=0.19.0
     - pytest-tornasync
     - pytest-console-scripts
+    - click
+    - rich
   commands:
     - pip check
     - python -m pytest --ignore=tests/test_cli.py -v
