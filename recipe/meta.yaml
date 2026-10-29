@@ -41,13 +41,13 @@ test:
     - pip
     - pytest >=7.0
     - pytest-asyncio >=0.19.0
-    - pytest-tornasync
     - pytest-console-scripts
     - click
     - rich
   commands:
     - pip check
-    - python -m pytest --ignore=tests/test_cli.py -v
+    # Match upstream's asyncio mode; pyproject.toml is not copied into the test environment.
+    - python -m pytest --ignore=tests/test_cli.py --asyncio-mode=auto -v
     - jupyter-events --help
 
 about:
